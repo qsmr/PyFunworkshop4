@@ -1,0 +1,101 @@
+class User:                                                 
+    def __init__(self, name, pin, password):
+        self.name = name
+        self.pin = pin
+        self.password = password
+                                                
+    def change_name(self, name):                                   
+        self.name = name
+    
+    def change_pin(self, pin):
+        self.pin = pin
+    
+    def change_password(self, password):
+        self.password = password
+
+class BankUser(User):
+    def __init__(self, name, pin, password):
+        super().__init__(name, pin, password)
+        self.balance = 0
+            
+   
+        
+    def show_balance(self):
+        print(self.name, "has a balance of: $",self.balance)
+    
+    def withdraw(self, amount):
+        self.balance -= amount
+    
+    def deposit(self, amount):
+        self.balance += amount
+
+    def transfer_money(self, amount, target):
+        print("You are transferring $",amount, "to", target.name)
+        print("Authentication required")    
+        enter_pin = input("Enter your PIN:")
+        if enter_pin != self.pin:
+            print("Invalid pin. Transaction canceled.")
+        elif enter_pin == self.pin:
+            target.balance += amount
+            self.balance -= amount
+            print("Transfer allowed")
+            return
+
+    def request_money(self, amount, target):
+        print("You are requesting $",amount, "from", target.name)
+        print("User authentication required")    
+        enter_pin = input("Enter user's PIN ")
+        if enter_pin != target.pin:
+            print("Invalid pin. Transaction canceled.")
+        elif enter_pin == target.pin:
+            enter_password = input("Enter your password: ")
+            if enter_password == self.password:
+                target.balance -= amount
+                self.balance += amount
+                print("Transfer allowed")
+                return
+
+
+# TASK 5 DRIVER
+B1 = BankUser("lex", "1111", "iamakid")          #Instantiate a BankUser providing name pin password argumnents
+B2 = BankUser("steve", "2222", "iamacat")        #Instantiate a second user
+B2.deposit(5000)                                 #deposit 5000 into the 2nd users account
+B2.show_balance()                                #Show the balance of the 2nd user
+B1.show_balance()                                #show the balance of the 1st user
+B2.transfer_money(500, B1)                       #2nd user transfers money to the 1st user
+B1.show_balance()                                #show balance of 1st user
+B2.show_balance()                                #show balance of 2nd user
+B2.request_money(200, B1)                        #Use request_money method
+B1.show_balance()                                #show balance of 1st user
+B2.show_balance()                                #show balance of 2nd user
+
+
+# TASK 4 DRIVER
+# B1 = BankUser("Lex", "1111", "iamakid")         #Instantiate an object of BankUser class providing name pin and password arguments
+# B1.show_balance()                               #call the show_balance method
+# B1.deposit(500)                                 #deposit somne positive number
+# B1.show_balance()                               #call the show_balance method
+# B1.withdraw(100)                                #call the withdraw method
+# B1.show_balance()                               #call the show_balance method
+
+# TASK 3 DRIVER
+# B1 = BankUser("lex", "1111", "iamakid")         #Instantiate an object from BankUser class providing name pin and password as arguments  
+# print(B1.name, B1.pin, B1.password, B1.balance) #print the objects attributes 
+
+# TASK 2 DRIVER
+# U1 = User("justlex", "2222", "iamachild")       #Instantiate an object from User class providing name pin and password as arguments  
+# print(U1.name, U1.pin, U1.password)             #print the objects attributes 
+# U1.change_name("lex")                           #change name
+# U1.change_pin("1234")                           #change pin
+# U1.change_password("iamakid")                   #change password
+# print(U1.name, U1.pin, U1.password)             #print the object's new current attributes 
+
+# TASK 1 DRIVER
+# U1 = User("lex", "2222", "iamakid")             #Instantiate an object from User class providing name pin and password as arguments    
+# print(U1.name, U1.pin, U1.password)             #print the objects attributes 
+
+
+
+
+
+
